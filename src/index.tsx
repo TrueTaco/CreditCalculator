@@ -1,15 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import GlobalStyle from "./GlobalStyle";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#79E2DA",
+        },
+        secondary: {
+            main: "#ff9800",
+        },
+        background: {
+            default: "#070707",
+        },
+    },
+});
+
+ReactDOM.render(
+    <React.StrictMode>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
+    </React.StrictMode>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
