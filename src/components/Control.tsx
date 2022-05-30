@@ -17,18 +17,40 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-
+    setDarlehen: (amount:number) => void;
+    setZins: (amount:number) => void;
+    setTilgung: (amount:number) => void;
 }
 
-const Control: React.FC<Props> = ({}) => {
+const Control: React.FC<Props> = ({setDarlehen,setZins,setTilgung}) => {
     const classes = useStyles();
+
+
+
+    const handleDarlehen = (event: React.ChangeEvent<{ value: unknown }>) => {
+        if (event.target.value as number) {
+            setDarlehen(event.target.value as number);
+        }
+    };
+
+    const handleZins = (event: React.ChangeEvent<{ value: unknown }>) => {
+        if (event.target.value as number) {
+            setZins(event.target.value as number);
+        }
+    };
+
+    const handleTilgung = (event: React.ChangeEvent<{ value: unknown }>) => {
+        if (event.target.value as number) {
+            setTilgung(event.target.value as number);
+        }
+    };
 
     return (
 
         <Box className={classes.root}>
-            <TextField  className={classes.textfield} type="number" label="Darlehen" variant="outlined" />
-            <TextField  className={classes.textfield} type="number" label="Zinssatz" variant="outlined" />
-            <TextField  className={classes.textfield} type="number" label="Tilgung" variant="outlined" />
+            <TextField  className={classes.textfield} type="number" label="Darlehen" variant="outlined"  onChange={handleDarlehen}/>
+            <TextField  className={classes.textfield} type="number" label="Zinssatz" variant="outlined" onChange={handleZins}/>
+            <TextField  className={classes.textfield} type="number" label="Tilgung" variant="outlined" onChange={handleTilgung}/>
         </Box>
     );
 };

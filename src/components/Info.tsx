@@ -35,7 +35,7 @@ const Info: React.FC<Props> = ({laufzeitMonate, bezahlteZinsen }) => {
 
             <Box className={classes.root}>
                 <Typography variant={"h6"} align={"center"}>Laufzeit:</Typography>
-                <Typography variant={"body2"} align={"center"}> Jahre: {laufzeitMonate/12}</Typography>
+                <Typography variant={"body2"} align={"center"}> Jahre: {Math.trunc(laufzeitMonate/12)}</Typography>
                 <Typography variant={"body2"} align={"center"}>Monate: {laufzeitMonate%12}</Typography>
                 <Typography variant={"body2"} align={"center"}>Bezahlte Zinsen: {bezahlteZinsen}</Typography>
             </Box>

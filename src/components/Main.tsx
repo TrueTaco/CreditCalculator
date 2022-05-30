@@ -1,19 +1,11 @@
 import { createStyles, makeStyles } from "@mui/styles";
 import {useEffect, useState} from "react";
-import {Box, Typography} from "@mui/material";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import {Box, Button, listItemAvatarClasses, Typography} from "@mui/material";
+
 import Info from "./Info";
 import Header from "./Header";
 import Control from "./Control";
+import Charts from "./Charts";
 
 const useStyles = makeStyles({
     root: {
@@ -24,13 +16,11 @@ const useStyles = makeStyles({
         height: "100vh",
         backgroundColor:"#F0F0F0"
     },
-    chart: {
-        height: "150%",
-        border: "blue",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        margin:"10px"
-    },
+    button:{
+        color:"white",
+        backgroundColor:"#F0F0F0",
+    }
+
 });
 
 interface Props {
@@ -43,75 +33,26 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
     const [monatsZinsArray, setMonatsZinsArray] = useState<number[]>([]);
     const [monatsTilgungArray, setMonatsTilgungArray] = useState<number[]>([]);
     const [labels, setLabels] = useState<any[]>([]);
-    const darlehen: number = 55000;
-    const zins: number = 1.0;
-    const anfangsTilgung: number = 4.0;
+    const [darlehen, setNewDarlehen] = useState<number>(50000);
+    const [zins, setNewZins] = useState<number>(1.0);
+    const [anfangsTilgung, setNewAnfangsTilgung] = useState<number>(20.0);
 
     const [endlaufzeitMonate, setEndlaufzeitMonate] = useState<number>(0);
     const [bezahlteZinsenGesamt, setBezahlteZinsenGesamt] = useState<number>(0);
 
-    const dataSchulden = {
-        labels,
-        datasets:[
-            {
-                label:"Schulden",
-                data: schuldenArray,
-                //borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                stack: 'Stack 0',
-            }
-        ]
-    };
-    const dataZinsenTilgung = {
-        labels,
-        datasets:[
-            {
-                label: 'Zinsen',
-                data: monatsZinsArray,
-                //borderColor: 'rgb(53, 162, 235)',
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                stack: 'Stack 1',
-            },
-            {
-                label: 'Tilgung',
-                data: monatsTilgungArray,
-                //borderColor: 'rgb(153, 62, 235)',
-                backgroundColor: 'rgba(153, 62, 235, 0.5)',
-                stack: 'Stack 2',
-            }
-        ]
-    };
 
-    const options = {
-        plugins: {
-            title: {
-                display: true,
-                text: 'Chart.js Bar Chart - Stacked',
-            },
-        },
-        responsive: true,
-        interaction: {
-            mode: 'index' as const,
-            intersect: false,
-        },
-        scales: {
-            x: {
-                stacked: true,
-            },
-            y: {
-                stacked: true,
-            },
-        },
-    };
 
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        BarElement,
-        Title,
-        Tooltip,
-        Legend
-    );
+    const setDarlehen = (amount:number) => {
+        setNewDarlehen(amount);
+    }
+
+    const setZins = (amount:number) => {
+        setNewZins(amount);
+    }
+
+    const setTilgung = (amount:number) => {
+        setNewAnfangsTilgung(amount);
+    }
 
     useEffect(() => {
         fillValueArray();
@@ -127,13 +68,17 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
 
         let monat:number = 0;
 
-        monatsAnnuität = (darlehen*(zins*anfangsTilgung))/1200;
+        monatsAnnuität = (darlehen*(zins+anfangsTilgung))/1200;
         restSchuld = darlehen;
 
         while(restSchuld>0.0){
+
             monatsZins = (restSchuld*zins)/1200;
             monatsTilgung = monatsAnnuität - monatsZins;
+
             if(monat%12 == 0){
+                console.log(monatsZins)
+                console.log(monatsTilgung)
                 let temp = schuldenArray;
                 temp.push(restSchuld);
                 setSchulden(temp);
@@ -149,6 +94,7 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
 
             restSchuld = restSchuld - monatsTilgung;
             bezahlteZinsen = bezahlteZinsen + monatsZins;
+
             monat++;
 
             if((restSchuld+(restSchuld*zins)/1200)<monatsAnnuität){
@@ -166,14 +112,12 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
     }
 
     return (
-
         <Box className={classes.root}>
             <Header></Header>
-            <Control></Control>
-            <Bar  className={classes.chart} options={options} data={dataSchulden} />
-            <Bar  className={classes.chart} options={options} data={dataZinsenTilgung} />
+            <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
+            <Button className={classes.button} variant="contained" onClick={fillValueArray}>Berechnen</Button>
+            <Charts schuldenArray={schuldenArray} zinsArray={monatsZinsArray} tilgungsArray={monatsTilgungArray} labels={labels}></Charts>
             <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt}></Info>
-
         </Box>
     );
 };
