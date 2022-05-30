@@ -68,8 +68,16 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
 
         let monat:number = 0;
 
-        monatsAnnuität = (darlehen*(zins+anfangsTilgung))/1200;
+        console.log(typeof darlehen)
+        console.log(typeof zins)
+        console.log(typeof anfangsTilgung)
+
+        // @ts-ignore
+        monatsAnnuität = (parseInt(darlehen)*(parseInt(zins)+parseInt(anfangsTilgung)))/1200;
         restSchuld = darlehen;
+
+        console.log(monatsAnnuität)
+        console.log(restSchuld)
 
         while(restSchuld>0.0){
 
