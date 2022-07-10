@@ -12,11 +12,11 @@ const styles = {
     root_mobile: {
         display:"flex",
         flexDirection:"column",
-        justifyContent:"space-evenly",
+        justifyContent:"space-around",
         width: "100%",
         height: "99vh",
         backgroundColor:"white",
-        marginTop:"5px"
+        margin:"auto",
     },
     root_pc: {
         margin:"auto",

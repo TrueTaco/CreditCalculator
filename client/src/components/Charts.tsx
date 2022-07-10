@@ -31,7 +31,7 @@ const styles = {
         borderStyle:"solid",
         borderRadius: "10px",
         borderColor:"lightgrey",
-        marginTop:"10px"
+        //marginTop:"10px"
     },
     root_pc: {
         display:"flex",
