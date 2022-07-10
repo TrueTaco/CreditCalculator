@@ -19,7 +19,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({}) => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up("lg"));
+    const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
     return (
 

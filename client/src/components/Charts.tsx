@@ -55,7 +55,7 @@ interface Props {
 
 const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }) => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up("lg"));
+    const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
     useEffect(() => {
     },[schuldenArray,zinsArray,tilgungsArray,labels]);

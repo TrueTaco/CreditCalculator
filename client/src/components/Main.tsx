@@ -24,8 +24,8 @@ const styles = {
         flexDirection:"column",
         alignItems:"center",
         justifyContent:"space-evenly",
-        width: "60%",
-        height: "100%",
+        width: "100%",
+        height: "100vh",
         backgroundColor:"white",
     },
     button:{
@@ -41,7 +41,7 @@ interface Props {
 
 const Main: React.FC<Props> = ({ text = "Click" }) => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up("lg"));
+    const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
     const [schuldenArray, setSchulden] = useState<any[]>([]);
     const [monatsZinsArray, setMonatsZinsArray] = useState<number[]>([]);
