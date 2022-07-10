@@ -1,6 +1,5 @@
-import { createStyles, makeStyles } from "@mui/styles";
-import {useEffect, useState} from "react";
-import {Box, TextField, Typography} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import {Box, TextField} from "@mui/material";
 
 const useStyles = makeStyles({
     root: {
@@ -9,10 +8,12 @@ const useStyles = makeStyles({
         justifyContent:"space-evenly",
         borderRadius: "10px",
         margin:"10px",
-        gap:"5px"
+        gap:"5px",
+        backgroundColor: "white"
     },
     textfield:{
         backgroundColor: "white",
+        color:"white"
     }
 });
 
@@ -24,8 +25,6 @@ interface Props {
 
 const Control: React.FC<Props> = ({setDarlehen,setZins,setTilgung}) => {
     const classes = useStyles();
-
-
 
     const handleDarlehen = (event: React.ChangeEvent<{ value: unknown }>) => {
         if (event.target.value as number) {
@@ -46,11 +45,10 @@ const Control: React.FC<Props> = ({setDarlehen,setZins,setTilgung}) => {
     };
 
     return (
-
         <Box className={classes.root}>
-            <TextField  className={classes.textfield} type="number" label="Darlehen" variant="outlined"  onChange={handleDarlehen}/>
-            <TextField  className={classes.textfield} type="number" label="Zinssatz" variant="outlined" onChange={handleZins}/>
-            <TextField  className={classes.textfield} type="number" label="Tilgung" variant="outlined" onChange={handleTilgung}/>
+            <TextField  className={classes.textfield} type="number" defaultValue="50000" label="Darlehen" variant="filled"  onChange={handleDarlehen}/>
+            <TextField  className={classes.textfield} type="number" defaultValue="1.0" label="Zinssatz" variant="filled" onChange={handleZins}/>
+            <TextField  className={classes.textfield} type="number" defaultValue="20.0" label="Tilgung" variant="filled" onChange={handleTilgung}/>
         </Box>
     );
 };

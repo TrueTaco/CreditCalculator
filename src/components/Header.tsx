@@ -1,30 +1,29 @@
-import { createStyles, makeStyles } from "@mui/styles";
 import {Box, Typography} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
-const useStyles = makeStyles({
-    root: {
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"space-evenly",
-        backgroundColor:"white",
+const styles = {
+    root_pc: {
+        margin:"8px",
+    },
+    root_mobile: {
+        backgroundColor:"lightgrey",
         borderRadius: "10px",
-        margin:"10px",
-        top: 0,
-        left:0,
-        right: 0,
-    }
-});
+        margin:"8px",
+    },
+};
 
 interface Props {
 }
 
 const Header: React.FC<Props> = ({}) => {
-    const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
     return (
 
-        <Box className={classes.root}>
+        <Box sx={matches ? styles.root_pc : styles.root_mobile}>
             <Typography variant={"h4"} align={"center"}>Credit calculator</Typography>
         </Box>
     );

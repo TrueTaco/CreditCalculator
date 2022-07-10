@@ -1,34 +1,48 @@
-import { createStyles, makeStyles } from "@mui/styles";
+import { useTheme } from '@mui/material/styles';
 import {useEffect, useState} from "react";
-import {Box, Button, listItemAvatarClasses, Typography} from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {Box, Button} from "@mui/material";
 
 import Info from "./Info";
 import Header from "./Header";
 import Control from "./Control";
 import Charts from "./Charts";
 
-const useStyles = makeStyles({
-    root: {
+const styles = {
+    root_mobile: {
         display:"flex",
         flexDirection:"column",
         justifyContent:"space-evenly",
         width: "100%",
-        height: "100vh",
-        backgroundColor:"#F0F0F0"
+        height: "99vh",
+        backgroundColor:"white",
+        marginTop:"5px"
+    },
+    root_pc: {
+        margin:"auto",
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        justifyContent:"space-evenly",
+        width: "60%",
+        height: "100%",
+        backgroundColor:"white",
     },
     button:{
-        color:"white",
-        backgroundColor:"#F0F0F0",
+        marginLeft:"10px",
+        marginRight:"10px"
     }
 
-});
+};
 
 interface Props {
     text?: string;
 }
 
 const Main: React.FC<Props> = ({ text = "Click" }) => {
-    const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("lg"));
+
     const [schuldenArray, setSchulden] = useState<any[]>([]);
     const [monatsZinsArray, setMonatsZinsArray] = useState<number[]>([]);
     const [monatsTilgungArray, setMonatsTilgungArray] = useState<number[]>([]);
@@ -39,6 +53,7 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
 
     const [endlaufzeitMonate, setEndlaufzeitMonate] = useState<number>(0);
     const [bezahlteZinsenGesamt, setBezahlteZinsenGesamt] = useState<number>(0);
+    const [monatlicheRaten, setMonatlicheRaten] = useState<number>(0);
 
 
 
@@ -58,7 +73,6 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
         fillValueArray();
     },[]);
 
-
     const fillValueArray = () => {
         let monatsZins: number = 0.0;
         let monatsTilgung: number = 0.0;
@@ -68,16 +82,13 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
 
         let monat:number = 0;
 
-        console.log(typeof darlehen)
-        console.log(typeof zins)
-        console.log(typeof anfangsTilgung)
-
         // @ts-ignore
         monatsAnnuität = (parseInt(darlehen)*(parseInt(zins)+parseInt(anfangsTilgung)))/1200;
         restSchuld = darlehen;
 
-        console.log(monatsAnnuität)
-        console.log(restSchuld)
+        let tempSchuldenArray = [];
+        let tempMonatsZinsArray = [];
+        let tempMonatsTilgungArray = [];
 
         while(restSchuld>0.0){
 
@@ -85,19 +96,9 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
             monatsTilgung = monatsAnnuität - monatsZins;
 
             if(monat%12 == 0){
-                console.log(monatsZins)
-                console.log(monatsTilgung)
-                let temp = schuldenArray;
-                temp.push(restSchuld);
-                setSchulden(temp);
-
-                temp = monatsZinsArray;
-                temp.push(monatsZins);
-                setMonatsZinsArray(temp);
-
-                temp = monatsTilgungArray;
-                temp.push(monatsTilgung)
-                setMonatsTilgungArray(temp);
+                tempSchuldenArray.push(restSchuld);
+                tempMonatsZinsArray.push(monatsZins);
+                tempMonatsTilgungArray.push(monatsTilgung)
             }
 
             restSchuld = restSchuld - monatsTilgung;
@@ -112,20 +113,25 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
                 monat++;
             }
         }
+
+        setSchulden(tempSchuldenArray);
+        setMonatsZinsArray(tempMonatsZinsArray);
+        setMonatsTilgungArray(tempMonatsTilgungArray);
         setEndlaufzeitMonate(monat)
         setBezahlteZinsenGesamt(bezahlteZinsen)
+        setMonatlicheRaten(monatsZins+monatsTilgung)
         const labelsArray = new Array(Math.round(monat/12)).fill(null).map((_, i) => "Jahr "+(i+1));
         setLabels(labelsArray);
         console.log(`Laufzeit: Jahre: ${monat/12}   Monate: ${monat%12}  bezahlte Zins: ${bezahlteZinsen}`)
     }
 
     return (
-        <Box className={classes.root}>
+        <Box sx={matches ? styles.root_pc : styles.root_mobile}>
             <Header></Header>
             <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
-            <Button className={classes.button} variant="contained" onClick={fillValueArray}>Berechnen</Button>
+            <Button sx={styles.button} color={"inherit"} variant="contained" onClick={fillValueArray}>Berechnen</Button>
             <Charts schuldenArray={schuldenArray} zinsArray={monatsZinsArray} tilgungsArray={monatsTilgungArray} labels={labels}></Charts>
-            <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt}></Info>
+            <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt} monatlicheRaten={monatlicheRaten}></Info>
         </Box>
     );
 };

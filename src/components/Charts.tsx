@@ -1,5 +1,5 @@
-import { createStyles, makeStyles } from "@mui/styles";
-import {useEffect, useState} from "react";
+import { useTheme } from '@mui/material/styles';
+import {useEffect} from "react";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,27 +11,40 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import {Box} from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-const useStyles = makeStyles({
-    root: {
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+const styles = {
+    root_mobile: {
         display:"flex",
         flexDirection:"column",
-        justifyContent:"space-evenly",
-        width: "100%",
-        height: "100vh",
-        backgroundColor:"#F0F0F0"
+        width: "95%",
+        margin:"auto",
+        borderStyle:"solid",
+        borderRadius: "10px",
+        borderColor:"lightgrey",
+        marginTop:"10px"
     },
-    textfield:{
-        backgroundColor: "white",
+    root_pc: {
+        display:"flex",
+        justifyContent:"space-evenly",
+        width: "40%",
+
     },
     chart: {
-        height: "150%",
-        border: "blue",
         backgroundColor: "white",
         borderRadius: "10px",
         margin:"10px"
     },
-});
+};
 
 interface Props {
     schuldenArray: number[],
@@ -41,7 +54,11 @@ interface Props {
 }
 
 const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }) => {
-    const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("lg"));
+
+    useEffect(() => {
+    },[schuldenArray,zinsArray,tilgungsArray,labels]);
 
     const options = {
         plugins: {
@@ -51,28 +68,7 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
             },
         },
         responsive: true,
-        interaction: {
-            mode: 'index' as const,
-            intersect: false,
-        },
-        scales: {
-            x: {
-                stacked: true,
-            },
-            y: {
-                stacked: true,
-            },
-        },
     };
-
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        BarElement,
-        Title,
-        Tooltip,
-        Legend
-    );
 
     const dataSchulden = {
         labels,
@@ -80,9 +76,7 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
             {
                 label:"Schulden",
                 data: schuldenArray,
-                //borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                stack: 'Stack 0',
             }
         ]
     };
@@ -92,25 +86,20 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
             {
                 label: 'Zinsen',
                 data: zinsArray,
-                //borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                stack: 'Stack 1',
             },
             {
                 label: 'Tilgung',
                 data: tilgungsArray,
-                //borderColor: 'rgb(153, 62, 235)',
                 backgroundColor: 'rgba(153, 62, 235, 0.5)',
-                stack: 'Stack 2',
             }
         ]
     };
 
     return (
-
-        <Box className={classes.root}>
-            <Bar  className={classes.chart} options={options} data={dataSchulden} />
-            <Bar  className={classes.chart} options={options} data={dataZinsenTilgung} />
+        <Box sx={matches ? styles.root_pc : styles.root_mobile}>
+            <Bar  options={options} data={dataSchulden} />
+            <Bar  options={options} data={dataZinsenTilgung} />
         </Box>
     );
 };

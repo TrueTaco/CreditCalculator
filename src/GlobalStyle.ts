@@ -9,13 +9,6 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         font-family: "Roboto", sans-serif;
    }
-
-   body {
-        /* This is here to make my eyes hurt less at night */
-        /* background-color: #313131; */
-        /* display: flex;
-        justify-content: center;         */
-   }
    `;
 
 export default GlobalStyle;
