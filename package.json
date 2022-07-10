@@ -1,5 +1,5 @@
 {
-    "name": "obrm.tech",
+    "name": "Credit calculator",
     "version": "1.0.0",
     "description": "",
     "main": "server.js",
@@ -13,14 +13,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Jesus-Cries/obrm.tech.git"
+        "url": "https://github.com/TrueTaco/CreditCalculator"
     },
-    "author": "Leon Obermann",
+    "author": "Michel Depcik",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Jesus-Cries/obrm.tech/issues"
+        "url": "https://github.com/TrueTaco/CreditCalculator/issues"
     },
-    "homepage": "https://github.com/Jesus-Cries/obrm.tech#readme",
+    "homepage": "",
     "dependencies": {
         "@material-ui/core": "^4.12.3",
         "concurrently": "^6.2.0",
