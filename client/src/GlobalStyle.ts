@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         font-family: "Roboto", sans-serif;
    }
+   body{
+      background-color: #E1D5D9
+   }
    `;
 
 export default GlobalStyle;

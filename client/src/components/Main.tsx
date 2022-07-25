@@ -1,7 +1,9 @@
 import { useTheme } from '@mui/material/styles';
 import {useEffect, useState} from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {Box, Button} from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
+// @ts-ignore
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 import Info from "./Info";
 import Header from "./Header";
@@ -13,25 +15,74 @@ const styles = {
         display:"flex",
         flexDirection:"column",
         justifyContent:"space-around",
-        width: "100%",
-        height: "99vh",
-        backgroundColor:"white",
-        margin:"auto",
+        alignItems:"center",
+        backgroundColor:"#E1D5D9",
     },
     root_pc: {
-        margin:"auto",
         display:"flex",
         flexDirection:"column",
         alignItems:"center",
         justifyContent:"space-evenly",
         width: "100%",
-        height: "100vh",
         backgroundColor:"white",
     },
     button:{
         marginLeft:"10px",
-        marginRight:"10px"
-    }
+        marginRight:"10px",
+        height:"100%",
+        borderRadius: "8px",
+        color:"#1C252C",
+        backgroundColor:"#E1D5D9",
+        '&:hover': {
+            backgroundColor: '#B7A7AE',
+            color: '#1C252C',
+        },
+    },
+    control_mobile:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems: "center",
+        padding:"10px",
+        position: "sticky",
+        backgroundColor:"white",
+        borderRadius:"10px",
+        width:"95%"
+    },
+    control_pc:{
+        paddingTop:"15px",
+        position: "sticky",
+        top: "0",
+        backgroundColor:"white",
+        width: "100%",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems: "center",
+        paddingBottom:"15px",
+    },
+    charts:{
+        height:"100%",
+        backgroundColor:"white",
+    },
+    chart_mobile: {
+        display:"flex",
+        flexDirection:"column",
+        borderRadius: "10px",
+        padding:"10px",
+        width: "100%",
+        gap:"15px"
+    },
+    chart_pc: {
+        padding:"20px",
+        display:"flex",
+        flexDirection:"column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        backgroundColor: "#E1D5D9"
+    },
+
 
 };
 
@@ -128,10 +179,18 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
     return (
         <Box sx={matches ? styles.root_pc : styles.root_mobile}>
             <Header></Header>
-            <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
-            <Button sx={styles.button} color={"inherit"} variant="contained" onClick={fillValueArray}>Berechnen</Button>
-            <Charts schuldenArray={schuldenArray} zinsArray={monatsZinsArray} tilgungsArray={monatsTilgungArray} labels={labels}></Charts>
-            <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt} monatlicheRaten={monatlicheRaten}></Info>
+            <Box sx={matches ? styles.control_pc : styles.control_mobile}>
+                <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
+                {/*<Button sx={styles.button} color={"inherit"} variant="contained" onClick={fillValueArray}>Berechnen</Button>*/}
+                <IconButton sx={styles.button} aria-label="calculate" onClick={fillValueArray}>
+                    <CalculateIcon sx={{ fontSize: 40 }}/>
+                </IconButton>
+            </Box>
+            <Box sx={matches ? styles.chart_pc : styles.chart_mobile}>
+                <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt} monatlicheRaten={monatlicheRaten}></Info>
+                <Charts schuldenArray={schuldenArray} zinsArray={monatsZinsArray} tilgungsArray={monatsTilgungArray} labels={labels}></Charts>
+            </Box>
+
         </Box>
     );
 };

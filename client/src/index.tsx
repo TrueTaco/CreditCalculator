@@ -8,13 +8,13 @@ import GlobalStyle from "./GlobalStyle";
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#FFFFFF",
+            main: "#B7A7AE",
         },
         secondary: {
-            main: "#ff9800",
+            main: "#E38664",
         },
         background: {
-            default: "#FFFFFF",
+            default: "#E1D5D9",
         },
     },
 });
