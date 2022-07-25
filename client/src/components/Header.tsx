@@ -6,11 +6,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const styles = {
     root_pc: {
         margin:"8px",
+        paddingTop:"20px"
     },
     root_mobile: {
-        backgroundColor:"lightgrey",
-        borderRadius: "10px",
-        margin:"8px",
+        backgroundColor:"#F6F2F6",
+        padding:"8px",
+        width:"100%",
+        marginBottom:"8px",
+        top:0,
+
     },
 };
 

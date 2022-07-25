@@ -23,26 +23,17 @@ ChartJS.register(
 );
 
 const styles = {
-    root_mobile: {
-        display:"flex",
-        flexDirection:"column",
-        width: "95%",
-        margin:"auto",
-        borderStyle:"solid",
-        borderRadius: "10px",
-        borderColor:"lightgrey",
-        //marginTop:"10px"
-    },
-    root_pc: {
-        display:"flex",
-        justifyContent:"space-evenly",
-        width: "40%",
-
-    },
-    chart: {
+    chart_pc: {
+        padding:"10px",
+        width:"50%",
         backgroundColor: "white",
         borderRadius: "10px",
-        margin:"10px"
+    },
+    chart_mobile: {
+        padding:"10px",
+        width:"100%",
+        backgroundColor: "white",
+        borderRadius: "10px",
     },
 };
 
@@ -64,7 +55,17 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
         plugins: {
             title: {
                 display: true,
-                text: 'Ergebnisse',
+                text: 'Restschulden pro Jahr',
+            },
+        },
+        responsive: true,
+    };
+
+    const options2 = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Monatliche Zinsen und Tilgung pro Jahr',
             },
         },
         responsive: true,
@@ -76,7 +77,7 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
             {
                 label:"Schulden",
                 data: schuldenArray,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                backgroundColor: 'rgb(183, 167, 174, 0.9)',
             }
         ]
     };
@@ -86,21 +87,21 @@ const Charts: React.FC<Props> = ({schuldenArray,zinsArray,tilgungsArray,labels }
             {
                 label: 'Zinsen',
                 data: zinsArray,
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                backgroundColor: 'rgb(88, 84, 91, 0.9)',
             },
             {
                 label: 'Tilgung',
                 data: tilgungsArray,
-                backgroundColor: 'rgba(153, 62, 235, 0.5)',
+                backgroundColor: 'rgb(28, 37, 44, 0.9)',
             }
         ]
     };
 
     return (
-        <Box sx={matches ? styles.root_pc : styles.root_mobile}>
-            <Bar  options={options} data={dataSchulden} />
-            <Bar  options={options} data={dataZinsenTilgung} />
-        </Box>
+            <Box sx={matches ? styles.chart_pc : styles.chart_mobile}>
+                <Bar  options={options} data={dataSchulden} />
+                <Bar  options={options2} data={dataZinsenTilgung} />
+            </Box>
     );
 };
 
