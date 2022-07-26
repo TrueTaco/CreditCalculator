@@ -2,7 +2,6 @@ import {Box, Typography} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-
 const styles = {
     root_pc: {
         margin:"8px",

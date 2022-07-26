@@ -1,4 +1,3 @@
-import { makeStyles } from "@mui/styles";
 import {Box, TextField} from "@mui/material";
 
 const styles = {
@@ -21,7 +20,6 @@ interface Props {
 }
 
 const Control: React.FC<Props> = ({setDarlehen,setZins,setTilgung}) => {
-
 
     const handleDarlehen = (event: React.ChangeEvent<{ value: unknown }>) => {
         if (event.target.value as number) {

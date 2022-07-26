@@ -1,4 +1,3 @@
-import { makeStyles } from "@mui/styles";
 import {Box, Typography} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
