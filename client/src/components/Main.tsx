@@ -1,8 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import {useEffect, useState} from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Box, Button, IconButton } from "@mui/material";
-// @ts-ignore
+import { Box, IconButton } from "@mui/material";
 import CalculateIcon from '@mui/icons-material/Calculate';
 
 import Info from "./Info";
@@ -181,7 +180,6 @@ const Main: React.FC<Props> = ({ text = "Click" }) => {
             <Header></Header>
             <Box sx={matches ? styles.control_pc : styles.control_mobile}>
                 <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
-                {/*<Button sx={styles.button} color={"inherit"} variant="contained" onClick={fillValueArray}>Berechnen</Button>*/}
                 <IconButton sx={styles.button} aria-label="calculate" onClick={fillValueArray}>
                     <CalculateIcon sx={{ fontSize: 40 }}/>
                 </IconButton>
