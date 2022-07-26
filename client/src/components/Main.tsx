@@ -86,10 +86,9 @@ const styles = {
 };
 
 interface Props {
-    text?: string;
 }
 
-const Main: React.FC<Props> = ({ text = "Click" }) => {
+const Main: React.FC<Props> = ({ }) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
