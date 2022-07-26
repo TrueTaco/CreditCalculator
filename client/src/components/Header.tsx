@@ -9,12 +9,11 @@ const styles = {
         paddingTop:"20px"
     },
     root_mobile: {
-        backgroundColor:"#F6F2F6",
-        padding:"8px",
+        backgroundColor:"#58545B",
+        padding:"16px",
         width:"100%",
-        marginBottom:"8px",
-        top:0,
-
+        marginBottom:"16px",
+        color:"#F6F2F6",
     },
 };
 
