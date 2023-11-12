@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Box, IconButton } from "@mui/material";
 import CalculateIcon from '@mui/icons-material/Calculate';
@@ -11,71 +11,71 @@ import Charts from "./Charts";
 
 const styles = {
     root_mobile: {
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"space-around",
-        alignItems:"center",
-        backgroundColor:"#E1D5D9",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: "#E1D5D9",
     },
     root_pc: {
-        display:"flex",
-        flexDirection:"column",
-        alignItems:"center",
-        justifyContent:"space-evenly",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-evenly",
         width: "100%",
-        backgroundColor:"white",
+        backgroundColor: "white",
     },
-    button:{
-        marginLeft:"10px",
-        marginRight:"10px",
-        height:"100%",
+    button: {
+        marginLeft: "10px",
+        marginRight: "10px",
+        height: "100%",
         borderRadius: "8px",
-        color:"#1C252C",
-        backgroundColor:"#E1D5D9",
+        color: "#1C252C",
+        backgroundColor: "#E1D5D9",
         '&:hover': {
             backgroundColor: '#B7A7AE',
             color: '#1C252C',
         },
     },
-    control_mobile:{
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"center",
+    control_mobile: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
-        padding:"10px",
+        padding: "10px",
         position: "sticky",
-        backgroundColor:"white",
-        borderRadius:"10px",
-        width:"95%"
+        backgroundColor: "white",
+        borderRadius: "10px",
+        width: "95%"
     },
-    control_pc:{
-        paddingTop:"15px",
+    control_pc: {
+        paddingTop: "15px",
         position: "sticky",
         top: "0",
-        backgroundColor:"white",
+        backgroundColor: "white",
         width: "100%",
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"center",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
-        paddingBottom:"15px",
+        paddingBottom: "15px",
     },
-    charts:{
-        height:"100%",
-        backgroundColor:"white",
+    charts: {
+        height: "100%",
+        backgroundColor: "white",
     },
     chart_mobile: {
-        display:"flex",
-        flexDirection:"column",
+        display: "flex",
+        flexDirection: "column",
         borderRadius: "10px",
-        padding:"10px",
+        padding: "10px",
         width: "100%",
-        gap:"15px"
+        gap: "15px"
     },
     chart_pc: {
-        padding:"20px",
-        display:"flex",
-        flexDirection:"column",
+        padding: "20px",
+        display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
@@ -106,21 +106,21 @@ const Main: React.FC<Props> = ({ }) => {
 
 
 
-    const setDarlehen = (amount:number) => {
+    const setDarlehen = (amount: number) => {
         setNewDarlehen(amount);
     }
 
-    const setZins = (amount:number) => {
+    const setZins = (amount: number) => {
         setNewZins(amount);
     }
 
-    const setTilgung = (amount:number) => {
+    const setTilgung = (amount: number) => {
         setNewAnfangsTilgung(amount);
     }
 
     useEffect(() => {
         fillValueArray();
-    },[]);
+    }, []);
 
     const fillValueArray = () => {
         let monatsZins: number = 0.0;
@@ -129,22 +129,22 @@ const Main: React.FC<Props> = ({ }) => {
         let restSchuld: number = 0.0;
         let monatsAnnuität: number = 0.0
 
-        let monat:number = 0;
+        let monat: number = 0;
 
         // @ts-ignore
-        monatsAnnuität = (parseInt(darlehen)*(parseInt(zins)+parseInt(anfangsTilgung)))/1200;
+        monatsAnnuität = (parseFloat(darlehen) * (parseFloat(zins) + parseFloat(anfangsTilgung))) / 1200;
         restSchuld = darlehen;
 
         let tempSchuldenArray = [];
         let tempMonatsZinsArray = [];
         let tempMonatsTilgungArray = [];
 
-        while(restSchuld>0.0){
+        while (restSchuld > 0.0) {
 
-            monatsZins = (restSchuld*zins)/1200;
+            monatsZins = (restSchuld * zins) / 1200;
             monatsTilgung = monatsAnnuität - monatsZins;
 
-            if(monat%12 == 0){
+            if (monat % 12 == 0) {
                 tempSchuldenArray.push(restSchuld);
                 tempMonatsZinsArray.push(monatsZins);
                 tempMonatsTilgungArray.push(monatsTilgung)
@@ -155,8 +155,8 @@ const Main: React.FC<Props> = ({ }) => {
 
             monat++;
 
-            if((restSchuld+(restSchuld*zins)/1200)<monatsAnnuität){
-                monatsZins = (restSchuld*zins)/1200;
+            if ((restSchuld + (restSchuld * zins) / 1200) < monatsAnnuität) {
+                monatsZins = (restSchuld * zins) / 1200;
                 bezahlteZinsen += monatsZins;
                 restSchuld = 0.0;
                 monat++;
@@ -168,10 +168,10 @@ const Main: React.FC<Props> = ({ }) => {
         setMonatsTilgungArray(tempMonatsTilgungArray);
         setEndlaufzeitMonate(monat)
         setBezahlteZinsenGesamt(bezahlteZinsen)
-        setMonatlicheRaten(monatsZins+monatsTilgung)
-        const labelsArray = new Array(Math.round(monat/12)).fill(null).map((_, i) => "Jahr "+(i+1));
+        setMonatlicheRaten(monatsZins + monatsTilgung)
+        const labelsArray = new Array(Math.round(monat / 12)).fill(null).map((_, i) => "Jahr " + (i + 1));
         setLabels(labelsArray);
-        console.log(`Laufzeit: Jahre: ${monat/12}   Monate: ${monat%12}  bezahlte Zins: ${bezahlteZinsen}`)
+        console.log(`Laufzeit: Jahre: ${monat / 12}   Monate: ${monat % 12}  bezahlte Zins: ${bezahlteZinsen}`)
     }
 
     return (
@@ -180,7 +180,7 @@ const Main: React.FC<Props> = ({ }) => {
             <Box sx={matches ? styles.control_pc : styles.control_mobile}>
                 <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
                 <IconButton sx={styles.button} aria-label="calculate" onClick={fillValueArray}>
-                    <CalculateIcon sx={{ fontSize: 40 }}/>
+                    <CalculateIcon sx={{ fontSize: 40 }} />
                 </IconButton>
             </Box>
             <Box sx={matches ? styles.chart_pc : styles.chart_mobile}>
