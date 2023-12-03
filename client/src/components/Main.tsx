@@ -98,11 +98,14 @@ const Main: React.FC<Props> = ({ }) => {
     const [labels, setLabels] = useState<any[]>([]);
     const [darlehen, setNewDarlehen] = useState<number>(50000);
     const [zins, setNewZins] = useState<number>(1.0);
-    const [anfangsTilgung, setNewAnfangsTilgung] = useState<number>(20.0);
+    const [anfangsTilgung, setNewAnfangsTilgung] = useState<number>(5.0);
+
+    const [zinsbindung, setZinsbindung] = useState<number>(0)
 
     const [endlaufzeitMonate, setEndlaufzeitMonate] = useState<number>(0);
     const [bezahlteZinsenGesamt, setBezahlteZinsenGesamt] = useState<number>(0);
     const [monatlicheRaten, setMonatlicheRaten] = useState<number>(0);
+    const [restSchulden, setRestSchulden] = useState<number>(0);
 
 
 
@@ -161,7 +164,15 @@ const Main: React.FC<Props> = ({ }) => {
                 restSchuld = 0.0;
                 monat++;
             }
+            console.log(zinsbindung);
+            console.log(monat);
+            console.log(monat % 12);
+
+
+            if (zinsbindung !== undefined && monat / 12 == zinsbindung) break;
         }
+
+        setRestSchulden(restSchuld);
 
         setSchulden(tempSchuldenArray);
         setMonatsZinsArray(tempMonatsZinsArray);
@@ -171,20 +182,20 @@ const Main: React.FC<Props> = ({ }) => {
         setMonatlicheRaten(monatsZins + monatsTilgung)
         const labelsArray = new Array(Math.round(monat / 12)).fill(null).map((_, i) => "Jahr " + (i + 1));
         setLabels(labelsArray);
-        console.log(`Laufzeit: Jahre: ${monat / 12}   Monate: ${monat % 12}  bezahlte Zins: ${bezahlteZinsen}`)
+        console.log(`Laufzeit: Jahre: ${monat / 12}   Monate: ${monat % 12}  bezahlte Zins: ${bezahlteZinsen} Restschulden Zins: ${restSchuld}`)
     }
 
     return (
         <Box sx={matches ? styles.root_pc : styles.root_mobile}>
             <Header></Header>
             <Box sx={matches ? styles.control_pc : styles.control_mobile}>
-                <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung}></Control>
+                <Control setDarlehen={setDarlehen} setZins={setZins} setTilgung={setTilgung} setZinsbindung={setZinsbindung}></Control>
                 <IconButton sx={styles.button} aria-label="calculate" onClick={fillValueArray}>
                     <CalculateIcon sx={{ fontSize: 40 }} />
                 </IconButton>
             </Box>
             <Box sx={matches ? styles.chart_pc : styles.chart_mobile}>
-                <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt} monatlicheRaten={monatlicheRaten}></Info>
+                <Info laufzeitMonate={endlaufzeitMonate} bezahlteZinsen={bezahlteZinsenGesamt} monatlicheRaten={monatlicheRaten} restschulden={restSchulden}></Info>
                 <Charts schuldenArray={schuldenArray} zinsArray={monatsZinsArray} tilgungsArray={monatsTilgungArray} labels={labels}></Charts>
             </Box>
 
