@@ -48,7 +48,7 @@ const Info: React.FC<Props> = ({ laufzeitMonate, bezahlteZinsen, monatlicheRaten
             <Typography variant={"body1"} align={"center"}> {Math.trunc(laufzeitMonate / 12)}  Jahre und {laufzeitMonate % 12} Monate </Typography>
             <Typography variant={"body1"} align={"center"}>Monatliche Raten: {monatlicheRaten.toFixed(2)}</Typography>
             <Typography variant={"body1"} align={"center"}>Bezahlte Zinsen: {bezahlteZinsen.toFixed(2)}</Typography>
-            <Typography variant={"body1"} align={"center"}>Restschulden Zinsen: {restschulden.toFixed(2)}</Typography>
+            <Typography variant={"body1"} align={"center"}>Restschulden: {restschulden.toFixed(2)}</Typography>
 
         </Box>
     );
